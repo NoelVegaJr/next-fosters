@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import Header from '../Layout/Header';
+import {useRouter} from 'next/router';
+import Header from '../Layout/Header/Header';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 
 
 const Register = () => {
+  const router = useRouter();
   const [usernameExists, setUsernameExists] = useState(false)
   const [emailExists, setEmailExists] = useState(false)
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -13,21 +15,23 @@ const Register = () => {
 
 
   const submitHandler = async (values) => {
+    const {password2, ...rest} = values
     try {
-      const response = await fetch('http://localhost:3001/register', {
+      const response = await fetch('http://localhost:3000/api/test/newUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(rest)
       })
       const data = await response.json();
 
-      data.usernameExists ? setUsernameExists(true) : setUsernameExists(false)
-      data.emailExists ? setEmailExists(true) : setEmailExists(false)
       if(!response.ok) {
+        data.usernameExists ? setUsernameExists(true) : setUsernameExists(false)
+        data.emailExists ? setEmailExists(true) : setEmailExists(false)
         throw new Error("Request Failed");
       }
+      router.push('/login')
     } catch(error) {
       console.error(error);
     }
@@ -77,8 +81,8 @@ const Register = () => {
   return (
     <>
         <Header>Register</Header>
-        <main className="w-full h-screen px-4 md:px-10">
-          <form onSubmit={formik.handleSubmit} className="py-6 px-4 flex flex-col gap-4  bg-white h-full sm:gap-6 md:p-6 md:rounded-md md:gap-10 md:text-xl">
+
+          <form method="post" onSubmit={formik.handleSubmit} className="py-6 px-4 flex flex-col gap-4 bg-white max-w-lg mx-auto">
             <div>
               <input placeholder="Username" id="username" type="text" {...formik.getFieldProps('username')}   className={`${inputClasses}`}/>
               {formik.touched.username && formik.errors.username ? <p className="text-xs text-red-600">{formik.errors.username}</p> : null}
@@ -121,7 +125,6 @@ const Register = () => {
             </div>
             <button type="submit" className=" bg-pink-600  text-white font-bold px-6 py-2 mt-4 rounded-3xl hover:shadow-lg hover:bg-violet-900">Submit</button>
           </form>
-        </main>
 
 
     </>

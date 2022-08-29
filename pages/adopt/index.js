@@ -1,13 +1,20 @@
 import React from 'react'
-import CatList from '../../components/Cat/CatList';
-const Adopt = () => {
+import AdoptionList from '../../components/Adoption/AdoptionList';
+import Header from '../../Layout/Header/Header';
+const AdoptPage = () => {
+  const animals = [
+    {id: 'c1', name: "Baby Hans", type: "Domestic Shorthair", img: '/images/kitty-1.jpg'} ,
+    {id: 'c2', name: "Baby Dusty", type: "Domestic Longhair", img: '/images/kitty-2.jpg'} ,
+    {id: 'c3', name: "Baby Heather", type: "Ragdoll", img: '/images/kitty-3.jpg'} ,
+  
+  ]
   return (
-    <div className="p-6">
-      <CatList />
+    <div className="">
+      <Header>Adopt Today</Header>
+      <AdoptionList animals={animals} />
     </div>
-    
   )
 }
 
 
-export default Adopt
+export default AdoptPage

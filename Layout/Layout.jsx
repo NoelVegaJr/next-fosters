@@ -1,14 +1,18 @@
 import React from 'react'
-import Navbar from './Navbar';
-import Footer from './Footer';
+import {Html, Head} from 'next/document';
+import Navbar from './Nav/Navbar';
+import Footer from './Footer/Footer';
 const Layout = ({children}) => {
   return <>
-  <div className="flex flex-col min-h-screen">
+
+  <div id="overlays"></div>
+  <div className="min-h-screen w-screen relative">
     <Navbar />
-      {children}
+      <div className="max-w-7xl mx-auto pb-16  px-4 sm:px-6 lg:px-8">
+          {children}
+      </div>
     <Footer/>
   </div>
-
   </>
 }
 

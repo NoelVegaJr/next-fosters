@@ -13,10 +13,10 @@ const HamburgerMenu = () => {
   return (
     <>
       <SideNavigation classes={classes} closeSideNav={toggleSideNavHandler}/>
-      <button onClick={toggleSideNavHandler} className='flex flex-col gap-1'>
-        <div className="w-8 h-1 bg-violet-900"></div>
-        <div className="w-8 h-1 bg-violet-900"></div>
-        <div className="w-8 h-1 bg-violet-900"></div>
+      <button onClick={toggleSideNavHandler} className='flex flex-col gap-1.5'>
+        <div className="w-8 h-1 bg-violet-800 rounded"></div>
+        <div className="w-8 h-1 bg-violet-800 rounded"></div>
+        <div className="w-8 h-1 bg-violet-800 rounded"></div>
       </button>
     </>
     

@@ -28,7 +28,7 @@ const ApplicationForm = (props) => {
   switch(currentStep) {
     case 1:
       console.log("step 1")
-      form = <form className="flex flex-col gap-4">
+      form = <form className="flex flex-col gap-4 ">
         <Input id="name" label="Name" input={{type: 'text'}} />
         <Input id="email" label="Email" input={{type: 'email'}} />
         <Input id="phone" label="Phone" input={{type: 'text'}} />
@@ -71,7 +71,7 @@ const ApplicationForm = (props) => {
 
   return (
     <ModelOverlay onClose={props.onClose}>
-      <div className="bg-white rounded-lg p-6 w-full">
+      <div className="bg-white rounded-lg p-6">
         <div className="mb-8">
           <p className="flex gap-10 justify-center">
             {steps}
