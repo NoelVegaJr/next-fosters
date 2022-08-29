@@ -2,9 +2,10 @@ import React from 'react'
 import HamburgerMenu from './Hamburger';
 
 const Navigation = () => {
+
   return (
     <nav>
-      <HamburgerMenu />
+      <HamburgerMenu/>
     </nav>
   )
 }

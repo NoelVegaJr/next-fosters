@@ -6,10 +6,13 @@ const Logo = ({children}) => {
   return (
     
       <Link href="/" >
-        <div className="text-white w-fit text-xl flex items-center gap-2">
-          {children}
-          <FontAwesomeIcon icon={faPaw} className="fa-sm" />
-        </div>
+        <a className="block">
+          <div className="text-white w-fit text-xl flex items-center gap-2">
+            {children}
+            <FontAwesomeIcon icon={faPaw} className="fa-sm" />
+          </div>
+        </a>
+
       </Link>
       
     

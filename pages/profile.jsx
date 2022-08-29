@@ -1,23 +1,18 @@
 import React from 'react';
-import AuthForm from '../components/Auth/AuthForm';
-import { getSession } from 'next-auth/react';
+import {getSession } from 'next-auth/react';
 
-const Login = () => {
+export default function Profile() {
 
-  console.log("render login form")
-  return (
-    <AuthForm />
-  )
+  return <h1>User Profile</h1>
 }
-
 
 export async function getServerSideProps(context) {
   const session = await getSession({req: context.req})
   console.log(session)
-  if(session) {
+  if(!session) {
     return {
       redirect: {
-        destination: '/profile',
+        destination: '/login',
         permanent: false
       }
     }
@@ -27,5 +22,3 @@ export async function getServerSideProps(context) {
     props: { session }
   }
 }
-
-export default Login
