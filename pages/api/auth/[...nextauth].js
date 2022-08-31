@@ -11,7 +11,7 @@ export default NextAuth({
     CredentialsProvider({
       async authorize(credentials) {
         const client = await connectDB();
-        const user = await client.db().collection('users').findOne({email: credentials.email})
+        let user = await client.db().collection('users').findOne({email: credentials.email})
 
         if(!user) {
           client.close();
@@ -24,8 +24,10 @@ export default NextAuth({
           client.close();
           throw new Error(`Could not log '${credentials.email}' in! Invalid password!`);
         }
+        user =  await client.db().collection('users').findOne({email: credentials.email})
         client.close();
-        return {email: user.email}
+        console.log(user)
+        return {name: user.username, email: user.email}
       }
     })
   ]

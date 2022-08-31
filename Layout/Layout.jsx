@@ -1,5 +1,4 @@
 import React from 'react'
-import {Html, Head} from 'next/document';
 import Navbar from './Nav/Navbar';
 import Footer from './Footer/Footer';
 const Layout = ({children}) => {

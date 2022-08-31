@@ -12,7 +12,7 @@ const AdoptionItem = (props) => {
   const closeFormHandler = () => {
     setIsAdopting(false);
   }
-
+  console.log(props.img)
   return (
         <>
           <li className="w-full mb-8 max-w-md  mx-auto min-w-96">

@@ -5,7 +5,11 @@ const Navigation = () => {
 
   return (
     <nav>
-      <HamburgerMenu/>
+      <div></div>
+      <div className="">
+        <HamburgerMenu/>
+      </div>
+      
     </nav>
   )
 }

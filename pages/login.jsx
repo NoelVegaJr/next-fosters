@@ -1,12 +1,12 @@
 import React from 'react';
-import AuthForm from '../components/Auth/AuthForm';
+import LoginForm from '../components/Login/LoginForm';
 import { getSession } from 'next-auth/react';
 
 const Login = () => {
 
   console.log("render login form")
   return (
-    <AuthForm />
+    <LoginForm />
   )
 }
 
