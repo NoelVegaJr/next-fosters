@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const NewFosterForm = ({careTaker, onSubmitLoading}) => {
+const NewFosterForm = ({ careTaker }) => {
   const formik = useFormik({
     initialValues: {
       animalType: 'cat',
@@ -21,7 +21,6 @@ const NewFosterForm = ({careTaker, onSubmitLoading}) => {
       image: Yup.mixed().required('Required')
     }),
     onSubmit: async () => {
-      onSubmitLoading(true)
       const { image } = formik.values;
       const formData = new FormData()
       let image_url;
@@ -45,7 +44,6 @@ const NewFosterForm = ({careTaker, onSubmitLoading}) => {
       } catch(error) {
         console.log(error)
       }
-      onSubmitLoading(false)
     }
   })
 

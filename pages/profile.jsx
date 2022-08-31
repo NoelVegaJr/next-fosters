@@ -1,48 +1,38 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
 import { getSession } from 'next-auth/react';
-import ModelOverlay from '../UI/ModalOverlay';
 import NewFosterForm from '../components/Foster/NewFosterForm';
 import AdoptionList from '../components/Adoption/AdoptionList';
+import { useQuery, useMutation } from 'react-query';
+
+const { URL } = process.env;
+
+const fetchUserAnimals = async (username) => {
+  const response = await fetch(`/api/user/${username}/animals`);
+  if(!response.ok) {
+    throw new Error("Error fetching animals");
+  }
+  return response.json();
+}
 
 export default function ProfilePage({ user }) {
   const  {username, firstName, lastName, phone, email} = user;
   const [addingNewFoster, setAddingNewFoster] = useState(false);
-  const [animals, setAnimals] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, status } = useQuery('userAnimals', () => fetchUserAnimals(username));
 
-  useEffect(() => {
-      axios.get(`/api/user/${username}/animals`).then(response => {
-        setAnimals(response.data)
-        setIsLoading(false)
-      })
-
-
-    
-  },[username])
-
-
-  if(isLoading) {
-    return <p>Is Loading</p>
+  if(status === 'error') {
+    return <p>Is error</p>
   }
+
   const newFosterClickHandler = () => {
     setAddingNewFoster(!addingNewFoster);
-  }
-
-  
-
-  const closeNewFosterForm = () => {
-    setAddingNewFoster(false)
   }
 
   return (
     <div className="mt-10">
       <h1 className="text-3xl">Welcome {username}</h1>
       <button onClick={newFosterClickHandler} className="bg-green-600 text-white font-semibold py-2 px-4 rounded-md">+ New Foster</button>
-      {/* {addingNewFoster && <ModelOverlay onClose={closeNewFosterForm}><button className="bg-green-600 text-white font-semibold py-2 px-4 rounded-md">+ New Foster</button></ModelOverlay>} */}
-      {addingNewFoster && <NewFosterForm careTaker={username} onSubmitLoading={setIsLoading}/>}
-      {isLoading && <p>Loading animals</p>}
-      {!isLoading && <AdoptionList animals={animals} />}
+      {addingNewFoster && <NewFosterForm careTaker={username} />}
+      {status !== 'loading' && <AdoptionList animals={data} />}
     </div>
     
   )
@@ -60,8 +50,8 @@ export async function getServerSideProps(context) {
     }
   }
 
-  const response = await axios('http://localhost:3000/api/user/'+session.user.name);
-  const user = response.data;
+  const response = await fetch(`${URL}/api/user/`+session.user.name);
+  const user = await response.json();
 
   return {
     props: { user }
