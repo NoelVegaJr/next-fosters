@@ -5,10 +5,10 @@ const Layout = ({children}) => {
   return <>
 
   <div id="overlays"></div>
-  <div className="min-h-screen relative">
+  <div className="min-h-screen relative ">
     <Navbar />
       <div className="max-w-7xl mx-auto pb-16  px-4 sm:px-6 lg:px-8">
-          {children}
+        {children}
       </div>
     <Footer/>
   </div>
