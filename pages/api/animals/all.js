@@ -1,17 +1,17 @@
 import connectDB from '../../../utils/db'
 export default async function handler(req, res) {
+  console.log("fetching animals api")
   console.log(req.body)
-
+  let animals;
   try {
     const client = await connectDB();
-    await client.db().collection('animals').insertOne(req.body)
+    animals = await client.db().collection('animals').find({}).toArray()
     client.close()
   } catch(error) {
     client.close()
-    console.log(error);
     res.status(500)
   }
 
-  res.json({message: "img upload api"})
+  res.json(animals)
   return
 }

@@ -2,8 +2,38 @@ import React from 'react';
 import axios from 'axios'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import uploadImage from '../../utils/cloudinary';
 
-const NewFosterForm = ({ careTaker }) => {
+const addAnimal = async ({username, type, name, species, image_url}) => {
+  console.log("adding animal")
+  try {
+    await axios.post(`/api/user/${username}/animals/create`, {
+      careTaker: username,
+      type: type,
+      name: name,
+      species: species,
+      image_url: image_url
+    });
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+const NewFosterForm = ({ username }) => {
+  const queryClient = useQueryClient()
+  const addAnimalMutation = useMutation(addAnimal, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('userAnimals')
+    }
+  });
+
+  const formSubmitHandler = async ({type, name, species, image}) => {
+    let image_url = await uploadImage(image)
+    addAnimalMutation.mutate({username, type, name, species, image_url})
+  }
+
+
   const formik = useFormik({
     initialValues: {
       animalType: 'cat',
@@ -20,31 +50,7 @@ const NewFosterForm = ({ careTaker }) => {
         .required('Required'),
       image: Yup.mixed().required('Required')
     }),
-    onSubmit: async () => {
-      const { image } = formik.values;
-      const formData = new FormData()
-      let image_url;
-      try {
-        formData.append('file', image)
-        formData.append('upload_preset', "fosters")
-        const res = await axios.post('https://api.cloudinary.com/v1_1/deu15ekam/image/upload', formData)
-        image_url = res.data.secure_url
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        await axios.post('/api/foster/create', {
-          careTaker: careTaker,
-          type: formik.values.type,
-          name: formik.values.name,
-          species: formik.values.species,
-          image_url: image_url
-        })
-      } catch(error) {
-        console.log(error)
-      }
-    }
+    onSubmit: () => formSubmitHandler(formik.values)
   })
 
   return (

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import Image from 'next/image';
 import ApplicationForm from '../ApplicationForm/ApplicationForm';
+import Card from '../ui/Card';
 
 const AdoptionItem = (props) => {
   const [isAdopting, setIsAdopting] = useState(false);
@@ -15,14 +15,11 @@ const AdoptionItem = (props) => {
   console.log(props.img)
   return (
         <>
-          <li className="w-full mb-8 max-w-md  mx-auto min-w-96">
-            <div className="relative w-full h-96 bg-gray-200 rounded-md -z-10">
-              <Image src={props.img} layout="fill" alt="pet for adoption" objectFit='cover' quality={100} />
-            </div>
+          <Card image={props.img}>
             <div className="mt-4 flex justify-between">
               <div className="">
                 <h3 className="text-sm text-gray-700">
-                <a href="#">
+                <a className="text-lg">
                   {props.name}
                 </a>
                 </h3>
@@ -30,8 +27,7 @@ const AdoptionItem = (props) => {
               </div>
               <button onClick={adoptionFormHandler} className="self-start bg-violet-800 text-white font-semibold mt-8 px-6 py-2 rounded-3xl hover:shadow-lg hover:bg-violet-900">Adopt</button>
             </div>
-            
-          </li>
+          </Card>
           {isAdopting && <ApplicationForm catName={props.name} onClose={closeFormHandler}/>}           
         </>
 

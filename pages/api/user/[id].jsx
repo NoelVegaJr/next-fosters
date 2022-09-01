@@ -14,7 +14,6 @@ const handler = async (req, res) => {
 
   const {password, ...rest} = user;
 
-
   res.json({...rest});
 }
 

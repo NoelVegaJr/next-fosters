@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../../components/Logo/Logo'
+import Logo from '../../Logo/Logo'
 import Navigation from './Navigation'
 
 const Navbar = () => {

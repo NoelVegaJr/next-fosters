@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import ModelOverlay from '../../UI/ModalOverlay';
-import Input from '../../UI/Input';
+import ModelOverlay from '../UI/ModalOverlay';
+import Input from '../UI/Input';
 import Step from './Step';
 
 const ApplicationForm = (props) => {

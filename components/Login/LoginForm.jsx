@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../../Layout/Header/Header'
+import Header from '../Layout/Header/Header'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {signIn} from 'next-auth/react';
