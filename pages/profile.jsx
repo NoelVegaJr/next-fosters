@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import { getSession } from 'next-auth/react';
 import NewFosterForm from '../components/Foster/NewFosterForm';
-import AdoptionList from '../components/Adoption/AdoptionList';
 import FosterList from '../components/Foster/FosterList';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchUserAnimals } from '../utils/animals';
 
 const { URL } = process.env;

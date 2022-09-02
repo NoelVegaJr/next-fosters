@@ -36,17 +36,26 @@ const NewFosterForm = ({ username }) => {
 
   const formik = useFormik({
     initialValues: {
-      animalType: 'cat',
+      type: '',
+      breed: '',
       name: '',
-      species: '',
+      gender: '',
+      age: '',
+      weight: '',
       image: ''
     }, validationSchema: Yup.object({
-      animalType: Yup.string()
+      type: Yup.string()
+        .required('Required'),
+      breed: Yup.string()
         .required('Required'),
       name: Yup.string()
         .required('Required')
         .max(20, 'Must be 20 characters or less'),
-      species: Yup.string()
+      gender: Yup.string()
+        .required('Required'),
+      age: Yup.number()
+        .required('Required'),
+      weight: Yup.number()
         .required('Required'),
       image: Yup.mixed().required('Required')
     }),
@@ -57,9 +66,20 @@ const NewFosterForm = ({ username }) => {
     <form onSubmit={formik.handleSubmit} className="border flex gap-6">
       <div>
         <label>Type</label><br/>
-        <select id="animalType" onChange={e => formik.setFieldValue('animalType', e.currentTarget.value)} className="border border-slate-200 w-">
+        <select id="type" {...formik.getFieldProps('type')} className="border border-slate-200 w-">
           <option value="cat">Cat</option>
           <option value="dog">Dog</option>
+        </select>
+      </div>
+      <div>
+        <label>Breed</label><br/>
+        <input id="breed" {...formik.getFieldProps('breed')} className="border border-slate-200 w-"/>
+      </div>
+      <div>
+        <label>Gender</label><br/>
+        <select id="gender" {...formik.getFieldProps('gender')} className="border border-slate-200 w-">
+          <option value="female">Female</option>
+          <option value="male">Male</option>
         </select>
       </div>
       <div>
@@ -67,8 +87,8 @@ const NewFosterForm = ({ username }) => {
         <input id="name" type="text" {...formik.getFieldProps('name')} className="border border-slate-200" />
       </div>
       <div>
-        <label>Species</label><br />
-        <input id="species" type="text" {...formik.getFieldProps('species')} className="border border-slate-200" />
+        <label>Age</label><br />
+        <input id="age" type="number" {...formik.getFieldProps('age')} className="border border-slate-200" />
       </div>
       <div>
         <label>Profile Picture</label><br />
