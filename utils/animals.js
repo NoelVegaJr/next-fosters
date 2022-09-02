@@ -10,8 +10,8 @@ export const fetchAnimals = async () => {
 }
 
 export const fetchUserAnimals = async (key) => {
-  const username = key.queryKey[1]
-  const response = await fetch(`/api/user/${username}/animals`);
+  const id = key.queryKey[1]
+  const response = await fetch(`/api/user/${id}/animals`);
   if(!response.ok) {
     throw new Error("Error fetching animals");
   }

@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  dob          DateTime
+  email        String   @unique
+  phone        String
+  password     String
+  avatar       String?
+  animals      Animal[]
+}
+
+model Animal {
+  id     String   @id @default(cuid())
+  name   String
+  type   String
+  breed  String
+  gender String
+  age    String
+  weight String
+  avatar String?
+  careTaker   User @relation(fields: [userId], references: [id])
+  userId String 
+}
