@@ -1,18 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-import { hashPassword } from '../../../utils/auth';
-
-const prisma = new PrismaClient();
-
-interface User {
-  firstName: string;
-  lastName: string;
-  dob: Date;
-  email: string;
-  phone: string;
-  password: string;
-  avatar?: string;
-}
+import prisma from '../../../utils/db';
+import { hash } from 'bcrypt';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -20,31 +8,33 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  let registration = req.body as User;
   try {
-    let user: User = await prisma.user.findUnique({
+    // Check if the user already exists
+    let user = await prisma.user.findUnique({
       where: {
-        email: registration.email,
+        email: req.body.email,
       },
     });
-
+    // User already exists
     if (user) {
       return res.status(401).json({ message: 'User already exists' });
     }
-    const hashedPassword = (await hashPassword(
-      registration.password
-    )) as string;
 
-    const newRegisteredUser = {
-      ...registration,
-      dob: new Date(registration.dob),
-      password: hashedPassword,
-      avatar: null,
-    };
-    console.log(newRegisteredUser);
-
-    await prisma.user.create({ data: newRegisteredUser });
-    res.status(200).json({ message: `${newRegisteredUser.email} registered!` });
+    // User does not exist begin creating new user
+    hash(req.body.password, 10, async (err, hash) => {
+      const newUser = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dob: new Date(req.body.dob),
+        email: req.body.email,
+        phone: req.body.phone,
+        password: hash,
+        avatar: null,
+      };
+      // create new user
+      await prisma.user.create({ data: newUser });
+      res.status(200).json({ message: `${newUser.email} registered!` });
+    });
   } catch {
     res.status(500).json({ message: 'Fatal Error' });
   }

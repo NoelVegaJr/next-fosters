@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import NewFosterForm from '../components/Foster/NewFosterForm';
 import FosterList from '../components/Foster/FosterList';
-import { useQuery } from '@tanstack/react-query';
-import { fetchUserAnimals } from '../utils/animals';
+import { JwtPayload, verify } from 'jsonwebtoken';
 
 const { URL } = process.env;
+
+export const getServerSideProps = async ({ req, res }) => {
+  try {
+    const authenticated = verify(req.cookies.auth, 'SECRET') as JwtPayload;
+    const response = await fetch(
+      `http://localhost:3000/api/user/${authenticated.userId}`
+    );
+    const data = await response.json();
+    return {
+      props: { user: data },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        permenant: false,
+        destination: 'login',
+      },
+      props: {},
+    };
+  }
+};
 
 export default function ProfilePage({ user }) {
   const [addingNewFoster, setAddingNewFoster] = useState(false);
@@ -18,9 +36,11 @@ export default function ProfilePage({ user }) {
 
   return (
     <>
-      <div className="mt-10">
-        <h1 className="text-3xl mb-10">Welcome {user.username}</h1>
-        <div className="flex justify-center">
+      <div className='mt-10'>
+        <h1 className='text-3xl mb-10'>
+          {user.firstName} {user.lastName}
+        </h1>
+        <div className='flex justify-center'>
           <button
             onClick={(e) => setContent('foster')}
             className={`px-10 pb-2  ${
@@ -54,11 +74,11 @@ export default function ProfilePage({ user }) {
           <>
             <button
               onClick={newFosterClickHandler}
-              className="bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5"
+              className='bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5'
             >
               + New Foster
             </button>
-            {addingNewFoster && <NewFosterForm username={user.username} />}
+            {addingNewFoster && <NewFosterForm userId={user.id} />}
             <FosterList userId={user.id} />
           </>
         )}
@@ -66,30 +86,3 @@ export default function ProfilePage({ user }) {
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  interface User {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    avatar: string;
-  }
-  const session = await getSession({ req: context.req });
-  console.log(session);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-  console.log(`${URL}/api/user/` + session.user.name);
-  const response = await fetch(`${URL}/api/user/` + session.user.name);
-  const user = await response.json();
-
-  return {
-    props: { user },
-  };
-};

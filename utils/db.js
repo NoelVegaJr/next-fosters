@@ -1,7 +1,5 @@
-import {MongoClient} from 'mongodb';
+import { PrismaClient } from '@prisma/client'
 
-export default async function connectDB() {
-  const client = await MongoClient.connect('mongodb+srv://noel:Spring120894@fosters.duamo.mongodb.net/fosters?retryWrites=true&w=majority');
+let prisma = new PrismaClient()
 
-  return client
-}
+export default prisma

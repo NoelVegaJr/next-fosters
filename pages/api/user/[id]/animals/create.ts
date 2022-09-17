@@ -1,16 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient, Animal } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../../../../../utils/db';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const animal: Animal = req.body;
-
+  console.log(req.body);
   try {
-    await prisma.animal.create({ data: animal });
+    await prisma.animal.create({ data: req.body });
     res.status(201).json({ message: 'animal created' });
   } catch (err) {
     console.log(err.message);

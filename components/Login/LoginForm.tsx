@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import Header from '../Layout/Header/Header';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 interface LoginCredentials {
@@ -10,26 +8,19 @@ interface LoginCredentials {
   password: string;
 }
 
-const AuthForm = (): JSX.Element => {
+const LoginForm = (): JSX.Element => {
   const [failedLogin, setFailedLogin] = useState(false);
   const router = useRouter();
 
-  const submitHandler = async ({
-    email,
-    password,
-  }: LoginCredentials): Promise<boolean> => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      email: email,
-      password: password,
+  const submitHandler = async ({ email, password }) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
 
-    if (!result.error) {
-      router.replace('/profile');
-    } else {
-      setFailedLogin(true);
-      return false;
-    }
+    const data = await response.json();
+    console.log(data);
   };
 
   const formik = useFormik({
@@ -48,44 +39,43 @@ const AuthForm = (): JSX.Element => {
   const inputClasses = '';
   return (
     <>
-      <div className="mt-20">
-        <Header>Login</Header>
+      <div className='mt-20'>
         {failedLogin && (
-          <p className="text-sm text-center text-red-600">
+          <p className='text-sm text-center text-red-600'>
             Incorrect email or password
           </p>
         )}
         <form
           onSubmit={formik.handleSubmit}
-          className="py-6 px-4 flex flex-col gap-4  bg-white h-full sm:gap-6 md:p-6 md:rounded-md md:gap-10 md:text-xl  max-w-lg mx-auto"
+          className='py-6 px-4 flex flex-col gap-4  bg-white h-full sm:gap-6 md:p-6 md:rounded-md md:gap-10 md:text-xl  max-w-lg mx-auto'
         >
           <div>
             <input
-              placeholder="Email"
-              id="email"
-              type="email"
+              placeholder='Email'
+              id='email'
+              type='email'
               {...formik.getFieldProps('email')}
-              className="w-full rounded p-1 outline-none border-b-2"
+              className='w-full rounded p-1 outline-none border-b-2'
             />
             {formik.touched.email && formik.errors.email ? (
-              <p className="text-xs text-red-600">{formik.errors.email}</p>
+              <p className='text-xs text-red-600'>{formik.errors.email}</p>
             ) : null}
           </div>
           <div>
             <input
-              placeholder="Password"
-              id="password"
-              type="password"
+              placeholder='Password'
+              id='password'
+              type='password'
               {...formik.getFieldProps('password')}
-              className="w-full rounded p-1 outline-none border-b-2"
+              className='w-full rounded p-1 outline-none border-b-2'
             />
             {formik.touched.password && formik.errors.password ? (
-              <p className="text-xs text-red-600">{formik.errors.password}</p>
+              <p className='text-xs text-red-600'>{formik.errors.password}</p>
             ) : null}
           </div>
           <button
-            type="submit"
-            className=" bg-pink-600  text-white font-bold px-6 py-2 mt-4 rounded-3xl hover:shadow-lg hover:bg-pink-700 transition-all duration-300"
+            type='submit'
+            className=' bg-pink-600  text-white font-bold px-6 py-2 mt-4 rounded-3xl hover:shadow-lg hover:bg-pink-700 transition-all duration-300'
           >
             Submit
           </button>
@@ -95,4 +85,4 @@ const AuthForm = (): JSX.Element => {
   );
 };
 
-export default AuthForm;
+export default LoginForm;
