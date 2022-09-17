@@ -8,7 +8,7 @@ interface LoginCredentials {
   password: string;
 }
 
-const LoginForm = (): JSX.Element => {
+const LoginForm = () => {
   const [failedLogin, setFailedLogin] = useState(false);
   const router = useRouter();
 
@@ -20,6 +20,8 @@ const LoginForm = (): JSX.Element => {
     });
     if (response.ok) {
       router.push('/profile');
+    } else {
+      setFailedLogin(true);
     }
   };
 

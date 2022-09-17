@@ -46,7 +46,7 @@ export default async function handler(
           path: '/',
         })
       );
-      res.json({ authToken: jwt });
+      res.json({ message: 'ok' });
     }
   );
 }

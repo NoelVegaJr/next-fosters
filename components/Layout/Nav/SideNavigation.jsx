@@ -1,9 +1,10 @@
-
+import { useRouter } from 'next/router'
 import Link from 'next/link';
 const SideNav = (props) => {
-
-  const logoutHandler = () => {
-    // signOut();
+  const router = useRouter();
+  const logoutHandler = async () => {
+    await fetch('/api/auth/logout')
+    router.push('/')
   }
 
   const closeSideNavHandler = () => {
@@ -20,7 +21,7 @@ const SideNav = (props) => {
           {!session && <li className="border-b border-b-violet-900 hover:bg-violet-800"><Link href="/register"><a onClick={closeSideNavHandler} className="block p-4">Register</a></Link></li>} */}
           <li className="border-b border-b-violet-900 hover:bg-violet-800"><Link href="/adopt"><a onClick={closeSideNavHandler} className="block p-4">Adopt</a></Link></li>
           <li className="border-b border-b-violet-900 hover:bg-violet-800"><Link href="/foster"><a onClick={closeSideNavHandler} className="block p-4">Foster</a></Link></li>
-          {/* {session && <li className="border-b border-b-violet-900 hover:bg-violet-800"><button onClick={logoutHandler} className="p-4 w-full text-left">Logout</button></li>} */}
+          {<li className="border-b border-b-violet-900 hover:bg-violet-800"><button onClick={logoutHandler} className="p-4 w-full text-left">Logout</button></li>}
         </ul>
       </div>
     </>
