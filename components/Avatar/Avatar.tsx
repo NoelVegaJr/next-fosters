@@ -1,10 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Avatar = ({ imgUrl, size, rounded = true }) => {
+const Avatar = ({ imgUrl, size }) => {
   return (
     <div
-      className={`relative w-${size} h-${size} rounded-full overflow-hidden`}
+      className={`relative w-${size} h-${size} rounded-full overflow-hidden bg-red-300`}
     >
       <Image
         src={imgUrl}
