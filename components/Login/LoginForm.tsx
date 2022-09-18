@@ -4,14 +4,9 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { SessionContext } from '../../context/SessionContext';
 
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
 const LoginForm = () => {
   const [failedLogin, setFailedLogin] = useState(false);
-  const session = useContext(SessionContext);
+  const session: any = useContext(SessionContext);
   const router = useRouter();
 
   const submitHandler = async ({ email, password }) => {
