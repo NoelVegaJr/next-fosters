@@ -2,31 +2,38 @@ import React, { useState } from 'react';
 import validateSession from '../utils/session';
 import NewFosterForm from '../components/Foster/NewFosterForm';
 import FosterList from '../components/Foster/FosterList';
+import prisma from '../utils/db';
 
 const { URL } = process.env;
 
 export const getServerSideProps = async ({ req, res }) => {
-  console.log(req.cookies);
   const session = await validateSession(req.cookies.session);
   if (session) {
-    const response = await fetch(
-      `${process.env.VERCEL_URL}/api/user/${session.userId}`
-    );
-    const userData = await response.json();
-
-    return {
-      props: { user: { ...userData } },
-    };
-  } else {
-    console.log('Invalid session');
-    return {
-      redirect: {
-        permenant: false,
-        destination: 'login',
-      },
-      props: {},
-    };
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.userId,
+        },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+        },
+      });
+      return {
+        props: { user: { ...user } },
+      };
+    } catch (err) {
+      res.status(500).json({ message: 'Error finding user' });
+    }
   }
+  return {
+    redirect: {
+      permenant: false,
+      destination: 'login',
+    },
+    props: {},
+  };
 };
 
 export default function ProfilePage({ user }) {
