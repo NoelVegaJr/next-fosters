@@ -44,11 +44,20 @@ const AnimalPage = (): JSX.Element => {
     <>
       {animal && (
         <>
-          <div className='flex items-center justify-between mt-20 '>
-            <Avatar imgUrl={animal.avatar} className='h-96 w-96' />
-            <div className='flex flex-col gap-4 w-1/2'>
-              <AnimalDescriptionPanel animal={animal} />
-              <AdoptCallToAction />
+          <div className='mt-20 lg:flex'>
+            <div className='w-full flex justify-center lg:w-1/2'>
+              <Avatar
+                imgUrl={animal.avatar}
+                className='h-80 w-80 lg:h-96 lg:w-96'
+              />
+            </div>
+            <div className='flex flex-col gap-6 lg:w-1/2'>
+              <div>
+                <AnimalDescriptionPanel animal={animal} />
+              </div>
+              <div>
+                <AdoptCallToAction />
+              </div>
             </div>
           </div>
         </>
