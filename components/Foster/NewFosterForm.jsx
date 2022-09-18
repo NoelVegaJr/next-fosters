@@ -69,7 +69,7 @@ const NewFosterForm = ({ userId }) => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className='border '>
+    <form onSubmit={formik.handleSubmit} className='border w-1/2 p-6'>
       <div className='flex gap-6 '>
         <div>
           <label>Type</label>

@@ -50,10 +50,10 @@ export default function ProfilePage({ user }) {
         <h1 className='text-3xl mb-10'>
           {user.firstName} {user.lastName}
         </h1>
-        <div className='flex justify-center'>
+        <div className='flex justify-center mb-4'>
           <button
             onClick={(e) => setContent('foster')}
-            className={`px-10 pb-2  ${
+            className={`px-4 pb-2  ${
               content === 'foster' &&
               ' border-b-amber-400 shadow-[-1px_-3px_0px_-1px_rgb(255,212,8)_inset]'
             }`}
@@ -62,7 +62,7 @@ export default function ProfilePage({ user }) {
           </button>
           <button
             onClick={(e) => setContent('application')}
-            className={`px-10 pb-2    ${
+            className={`px-4 pb-2    ${
               content === 'application' &&
               ' border-b-amber-400 shadow-[-1px_-3px_0px_-1px_rgb(255,212,8)_inset]'
             }`}
@@ -71,7 +71,7 @@ export default function ProfilePage({ user }) {
           </button>
           <button
             onClick={(e) => setContent('archive')}
-            className={`px-10 pb-2    ${
+            className={`px-4 pb-2    ${
               content === 'archive' &&
               ' border-b-amber-400 shadow-[-1px_-3px_0px_-1px_rgb(255,212,8)_inset]'
             }`}
@@ -84,7 +84,7 @@ export default function ProfilePage({ user }) {
           <>
             <button
               onClick={newFosterClickHandler}
-              className='bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5'
+              className='bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5 w-full'
             >
               + New Foster
             </button>

@@ -44,7 +44,7 @@ const AnimalPage = (): JSX.Element => {
     <>
       {animal && (
         <>
-          <div className='flex  h-fit items-center justify-between mt-20 '>
+          <div className='flex items-center justify-between mt-20 '>
             <Avatar imgUrl={animal.avatar} size={96} />
             <div className='flex flex-col gap-4 w-1/2'>
               <AnimalDescriptionPanel animal={animal} />

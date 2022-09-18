@@ -7,9 +7,9 @@ import { faDog, faCat } from '@fortawesome/free-solid-svg-icons';
 const AdoptPage = (): JSX.Element => {
   return (
     <>
-      <main className="max-w-5xl mx-auto">
+      <main className='max-w-5xl mx-auto'>
         <Header>Adopt Today</Header>
-        <div className=" bg-violet-600 mb-20">
+        {/* <div className=" bg-violet-600 mb-20">
           <h3 className="text-xl text-white font-bold  p-4 tracking-wide">
             Find your perfect pet!
           </h3>
@@ -69,7 +69,7 @@ const AdoptPage = (): JSX.Element => {
               </div>
             </fieldset>
           </div>
-        </div>
+        </div> */}
         <AdoptionList />
       </main>
     </>
