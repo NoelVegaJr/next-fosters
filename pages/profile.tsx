@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
+import validateSession from '../utils/session';
 import NewFosterForm from '../components/Foster/NewFosterForm';
 import FosterList from '../components/Foster/FosterList';
-import { JwtPayload, verify } from 'jsonwebtoken';
 
 const { URL } = process.env;
 
 export const getServerSideProps = async ({ req, res }) => {
-  try {
-    const authenticated = verify(req.cookies.auth, 'SECRET') as JwtPayload;
+  console.log(req.cookies);
+  const session = await validateSession(req.cookies.session);
+  if (session) {
     const response = await fetch(
-      `http://localhost:3000/api/user/${authenticated.userId}`
+      `http://localhost:3000/api/user/${session.userId}`
     );
-    const data = await response.json();
+    const userData = await response.json();
+
     return {
-      props: { user: data },
+      props: { user: { ...userData } },
     };
-  } catch (error) {
+  } else {
+    console.log('Invalid session');
     return {
       redirect: {
         permenant: false,

@@ -5,6 +5,7 @@ const HamburgerMenu = () => {
   const [showSideNav, setShowSideNav] = useState(false);
 
   const toggleSideNavHandler = () => {
+    console.log('clicked')
     setShowSideNav(prev => !prev)
   }
 

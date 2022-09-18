@@ -1,12 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { NextRouter } from 'next/router';
+import prisma from '../../../utils/db';
 import cookie from 'cookie';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   console.log("logging out'");
+  try {
+    await prisma.session.delete({
+      where: {
+        id: req.cookies.session,
+      },
+    });
+  } catch {}
+
   res.setHeader(
     'Set-Cookie',
-    cookie.serialize('auth', '', {
+    cookie.serialize('session', '', {
       expires: new Date(0),
       httpOnly: true,
       sameSite: 'strict',

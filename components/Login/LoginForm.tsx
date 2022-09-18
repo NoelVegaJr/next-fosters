@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { SessionContext } from '../../context/SessionContext';
 
 interface LoginCredentials {
   email: string;
@@ -10,6 +11,7 @@ interface LoginCredentials {
 
 const LoginForm = () => {
   const [failedLogin, setFailedLogin] = useState(false);
+  const session = useContext(SessionContext);
   const router = useRouter();
 
   const submitHandler = async ({ email, password }) => {
@@ -18,7 +20,9 @@ const LoginForm = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
+    const sessionData = await response.json();
     if (response.ok) {
+      session.setSession(sessionData);
       router.push('/profile');
     } else {
       setFailedLogin(true);

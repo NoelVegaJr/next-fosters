@@ -1,23 +1,19 @@
-import React from 'react';
 import LoginForm from '../components/Login/LoginForm';
 import Header from '../components/Layout/Header/Header';
-import { verify } from 'jsonwebtoken';
+import validateSession from '../utils/session';
 
 export const getServerSideProps = async ({ req, res }) => {
-  try {
-    const authenticated = verify(req.cookies.auth, 'SECRET') as any;
-    const response = await fetch(
-      `http://localhost:3000/api/user/${authenticated.userId}`
-    );
-    const data = await response.json();
+  const session = await validateSession(req.cookies.session);
+
+  if (session) {
     return {
       redirect: {
-        permenant: false,
         destination: '/profile',
+        permanent: false,
       },
-      props: { user: data },
+      props: {},
     };
-  } catch (error) {
+  } else {
     return {
       props: {},
     };

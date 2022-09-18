@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-
+import Layout from '../components/Layout/Layout'
 export default function Document() {
   return (
     <Html>
@@ -7,8 +7,10 @@ export default function Document() {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
       <body>
-        <Main />
-        <NextScript />
+
+          <Main />
+          <NextScript />
+
       </body>
     </Html>
   )
