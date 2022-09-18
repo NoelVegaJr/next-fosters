@@ -10,7 +10,7 @@ export const getServerSideProps = async ({ req, res }) => {
   const session = await validateSession(req.cookies.session);
   if (session) {
     const response = await fetch(
-      `https://next-fosters-lhlzy8ooc-noelvegajr.vercel.app/api/user/${session.userId}`
+      `${process.env.VERCEL_URL}/api/user/${session.userId}`
     );
     const userData = await response.json();
 
