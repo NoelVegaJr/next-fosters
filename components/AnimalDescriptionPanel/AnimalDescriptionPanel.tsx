@@ -12,9 +12,9 @@ export const AnimalDescription = ({ title, faIcon, value, bg }) => {
     <div
       className={`${
         bg === 2 && 'bg-neutral-100'
-      } h-full py-8 px-1 text-center basis-1/5 `}
+      } py-8 px-1 text-center basis-1/5 `}
     >
-      <div className='flex flex-col justify-center h-full gap-6 items-center text-sm lg:text-lg'>
+      <div className='flex flex-col justify-center gap-6 items-center text-lg'>
         <p className='text-violet-400'>{title}</p>
         <FontAwesomeIcon icon={faIcon} className=' text-neutral-600 text-3xl' />
         <p>{value}</p>

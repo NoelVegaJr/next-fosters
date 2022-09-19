@@ -40,13 +40,13 @@ export default function ProfilePage({ user }) {
   const [addingNewFoster, setAddingNewFoster] = useState(false);
   const [content, setContent] = useState('foster');
 
-  const newFosterClickHandler = () => {
+  const toggleNewFosterHandler = () => {
     setAddingNewFoster(!addingNewFoster);
   };
 
   return (
     <>
-      <div className='mt-10'>
+      <div className='mt-10 relative'>
         <h1 className='text-3xl mb-10'>
           {user.firstName} {user.lastName}
         </h1>
@@ -83,12 +83,17 @@ export default function ProfilePage({ user }) {
         {content === 'foster' && (
           <>
             <button
-              onClick={newFosterClickHandler}
-              className='bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5 w-full'
+              onClick={toggleNewFosterHandler}
+              className='bg-green-600 text-white font-semibold py-2 px-4 rounded-md mb-5 w-full md:w-fit'
             >
               + New Foster
             </button>
-            {addingNewFoster && <NewFosterForm userId={user.id} />}
+            {addingNewFoster && (
+              <NewFosterForm
+                userId={user.id}
+                onClose={toggleNewFosterHandler}
+              />
+            )}
             <FosterList userId={user.id} />
           </>
         )}
