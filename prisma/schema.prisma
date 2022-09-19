@@ -8,41 +8,43 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  firstName    String
-  lastName     String
-  dob          DateTime
-  email        String   @unique
-  phone        String
-  password     String
-  avatar       String?
-  animals      Animal[]
-  session      Session?
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  dob       DateTime
+  email     String   @unique
+  phone     String
+  password  String
+  avatar    String?
+  animals   Animal[]
+  session   Session?
 }
 
 model Animal {
-  id     String   @id @default(cuid())
-  name   String
-  type   String
-  breed  String
-  gender String
-  dob    String
-  weight Int
-  avatar String?
-  careTaker   User @relation(fields: [userId], references: [id])
-  userId String 
+  id        String  @id @default(cuid())
+  name      String
+  type      String
+  breed     String
+  gender    String
+  weight    Int
+  avatar    String?
+  userId    String
+  dob       String
+  careTaker User    @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Animal_userId_fkey")
 }
 
 model Breed {
-  id     String   @id @default(cuid())
-  apiId  String
-  name String
-  type String
+  id    String @id @default(cuid())
+  apiId String
+  name  String
+  type  String
 }
 
 model Session {
-  id     String   @id @default(cuid())
-  user   User @relation(fields: [userId], references: [id])
-  userId String @unique
-  expires DateTime 
+  id      String   @id @default(cuid())
+  userId  String   @unique
+  expires DateTime
+  user    User     @relation(fields: [userId], references: [id])
 }
