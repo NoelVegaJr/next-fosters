@@ -1,9 +1,10 @@
-import React from 'react';
-import axios from 'axios';
+import {useState, useEffect} from 'react';
+import Script from 'next/script';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import uploadImage from '../../utils/cloudinary';
+
 
 const addAnimal = async (newAnimal) => {
   console.log('adding animal');
@@ -20,12 +21,23 @@ const addAnimal = async (newAnimal) => {
 };
 
 const NewFosterForm = ({ userId }) => {
+  const [breeds, setBreeds] = useState([]);
+  const [address, setAddress] = useState('');
   const queryClient = useQueryClient();
   const addAnimalMutation = useMutation(addAnimal, {
     onSuccess: () => {
       queryClient.invalidateQueries('userAnimals');
     },
   });
+
+  useEffect(() => {
+    fetch('/api/breeds')
+    .then(response => response.json())
+    .then(data => {
+      setBreeds(data)
+    })
+  },[])
+
 
   const formSubmitHandler = async (values) => {
     console.log(values);
@@ -37,7 +49,6 @@ const NewFosterForm = ({ userId }) => {
       ...rest,
       avatar: image_url
     }
-    console.log(newAnimal);
     addAnimalMutation.mutate(newAnimal);
   };
 
@@ -69,6 +80,7 @@ const NewFosterForm = ({ userId }) => {
   });
 
   return (
+    <>
     <form onSubmit={formik.handleSubmit} className='border w-1/2 p-6'>
       <div className='flex gap-6 '>
         <div>
@@ -91,8 +103,8 @@ const NewFosterForm = ({ userId }) => {
             {...formik.getFieldProps('gender')}
             className='border border-slate-200 w-'
           >
-            <option value='female'>Female</option>
-            <option value='male'>Male</option>
+            <option value='Female'>Female</option>
+            <option value='Male'>Male</option>
           </select>
         </div>
         <div>
@@ -110,11 +122,17 @@ const NewFosterForm = ({ userId }) => {
         <div>
           <label>Breed</label>
           <br />
-          <input
+          <select
             id='breed'
             {...formik.getFieldProps('breed')}
             className='border border-slate-200 w-'
-          />
+          >
+          {breeds.map(breed => {
+            return (
+              <option key={breed.id} value={breed.name}>{breed.name}</option>
+            )
+          })}
+          </select>
         </div>
         <div>
           <label>Age</label>
@@ -137,6 +155,7 @@ const NewFosterForm = ({ userId }) => {
           />
         </div>
       </div>
+
       <div>
         <label>Profile Picture</label>
         <br />
@@ -155,6 +174,7 @@ const NewFosterForm = ({ userId }) => {
         Submit
       </button>
     </form>
+    </>
   );
 };
 

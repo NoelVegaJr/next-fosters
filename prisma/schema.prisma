@@ -33,6 +33,13 @@ model Animal {
   userId String 
 }
 
+model Breed {
+  id     String   @id @default(cuid())
+  apiId  String
+  name String
+  type String
+}
+
 model Session {
   id     String   @id @default(cuid())
   user   User @relation(fields: [userId], references: [id])

@@ -36,13 +36,12 @@ const FosterList = ({ userId }: { userId: string }): JSX.Element => {
   }
 
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <ul className='grid grid-cols-1 md:grid-cols-2 gap-10'>
       {animals.map((animal) => {
-        console.log(animal);
         return (
           <li
             key={animal.id}
-            className="w-full hover:cursor-pointer border p-6 hover:bg-slate-50"
+            className='w-full hover:cursor-pointer border p-6 hover:bg-slate-50'
           >
             <FosterItem name={animal.name} avatar={animal.avatar} />
           </li>

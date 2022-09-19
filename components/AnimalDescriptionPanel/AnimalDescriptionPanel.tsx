@@ -9,7 +9,11 @@ import {
 
 export const AnimalDescription = ({ title, faIcon, value, bg }) => {
   return (
-    <div className={`${bg === 2 && 'bg-neutral-100'} h-full py-8 basis-1/5 `}>
+    <div
+      className={`${
+        bg === 2 && 'bg-neutral-100'
+      } h-full py-8 px-1 text-center basis-1/5 `}
+    >
       <div className='flex flex-col justify-center h-full gap-6 items-center text-sm lg:text-lg'>
         <p className='text-violet-400'>{title}</p>
         <FontAwesomeIcon icon={faIcon} className=' text-neutral-600 text-3xl' />
@@ -39,15 +43,19 @@ const AnimalDescriptionPanel = ({ animal }) => {
           bg={2}
         />
         <AnimalDescription
-          title='Age'
+          title='Birthday'
           faIcon={faCalendarDays}
-          value={animal.age}
+          value={new Date(animal.dob).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
           bg={1}
         />
         <AnimalDescription
           title='Weight'
           faIcon={faWeight}
-          value={animal.weight}
+          value={`${animal.weight} lbs`}
           bg={2}
         />
         <AnimalDescription
